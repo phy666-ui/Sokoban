@@ -1,6 +1,6 @@
 #include ".\sokobanhighscore.h"
 
-#include <Windows.h>
+#include "Platform.h"
 #include <sstream>
 #include <iostream>
 using namespace std;

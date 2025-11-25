@@ -1,4 +1,4 @@
-#include <windows.h>
+#include "Platform.h"
 #include "GLee.h"
 //#include <gl/gl.h>
 #include <il/il.h>

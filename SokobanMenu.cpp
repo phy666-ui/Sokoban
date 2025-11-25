@@ -1,4 +1,4 @@
-#include <Windows.h>
+#include "Platform.h"
 #include <assert.h>
 #include <sstream>
 

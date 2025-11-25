@@ -1,6 +1,6 @@
 #include ".\sokobanrenderer.h"
 
-#include <windows.h>
+#include "Platform.h"
 #include "GLee.h"
 //#include <gl/GL.h>
 #include <GL/glu.h>

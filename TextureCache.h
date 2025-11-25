@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windows.h>
+#include "Platform.h"
 #include "GLee.h"
 //#include <gl\gl.h>
 
