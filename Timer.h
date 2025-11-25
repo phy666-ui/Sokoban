@@ -1,72 +1,38 @@
 #pragma once
 
-#ifdef _MSC_VER
-#pragma comment( lib, "winmm.lib" )
-#endif
-
-#include <Windows.h>
+#ifdef _WIN32
+#include <windows.h>
 #include <mmsystem.h>
+#elif defined(_UNIX)
+#include <ctime>
+#include <sys/time.h>
+#endif
 
 class CTimer
 {
 public:
-	CTimer(void);
-	~CTimer(void);
+    CTimer();
+    ~CTimer();
+
+    // 更新计时器，计算帧间隔
+    void Tick();
+
+    // 获取FPS
+    int GetFPS();
+
+    // 获取帧间隔
+    float GetFrameDelta();
+
 private:
-	// Frames Per Second Monitor
-	static float m_FPSLastCheckTime;		// to make sure fps is update per second
-	static float m_FPSCounter;				// how many frames since last second
-	static float m_FPS;						// current fps, ready to report back
+    // 获取当前时间的静态方法
+    static float GetCurrentTime();
 
-	// Frame Delta
-	static float m_LastTime;				// time of last check
-	static float m_FrameDelta;				// frame delta, ready to report back
+    // FPS计数器
+    static float FPSLastCheckTime; // 上次FPS检查时间
+    static int FPSCounter;         // 帧率计数器
+    static int FPS;                // 当前FPS
 
-
-public:
-	// Update the Frame Delta
-	void Tick(void)
-	{
-		// frame delta update
-		//////////////////////////////////////////////////////////////////////////
-		// grab time from most accurate time source
-		float currentTime = timeGetTime() * 0.001f;
-
-		// calculate frame delta
-		m_FrameDelta = currentTime - m_LastTime;
-
-		// store for next frame
-		m_LastTime = currentTime;
-
-		// fps counter update
-		//////////////////////////////////////////////////////////////////////////
-		// increase the fps counter
-		++m_FPSCounter;
-
-		// if a second has passed update the real fps
-		if( currentTime - m_FPSLastCheckTime > 1.0f)
-		{
-			// prepare last check time
-			m_FPSLastCheckTime = currentTime;
-
-			// set real fps
-			m_FPS = m_FPSCounter;
-
-			// reset counter
-			m_FPSCounter = 0;
-		}
-
-	}
-
-	// Get the current frame delta
-	float GetFrameDelta(void)
-	{
-		return m_FrameDelta;
-	}
-
-	// Get the current fps
-	float GetFPS(void)
-	{
-		return m_FPS;
-	}
+    // 帧间隔
+    static float LastTime;         // 上次更新时间
+    static float FrameDelta;       // 帧间隔（秒）
 };

@@ -15,12 +15,10 @@
 *	void Deinitialize (void);                                                    *
 *		Performs All Your DeInitialization                                       *
 *                                                                                *
-*	void Update (DWORD milliseconds);                                            *
+*	void Update (void);                                                          *
 *		Perform Motion Updates                                                   *
-*		'milliseconds' Is The Number Of Milliseconds Passed Since The Last Call  *
-*		With Whatever Accuracy GetTickCount() Provides                           *
 *                                                                                *
-*	void DrawScene(void);                                                            *
+*	void DrawScene(void);                                                        *
 *		Perform All Your Scene Drawing                                           *
 *                                                                                *
 *********************************************************************************/
@@ -28,59 +26,50 @@
 #ifndef GL_FRAMEWORK__INCLUDED
 #define GL_FRAMEWORK__INCLUDED
 
-#include <windows.h>								// Header File For Windows
+// 添加BOOL定义
+#ifndef BOOL
+#define BOOL int
+#define TRUE 1
+#define FALSE 0
+#endif
 
 #include "Camera.h"
 
-struct Keys{										// Structure For Keyboard Stuff
-	BOOL keyDown [256];								// Holds TRUE / FALSE For Each Key
-	BOOL keyUp [256];								// Holds TRUE / FALSE For Each Key
-};										// Keys
+struct Keys {
+	BOOL keyDown[256];
+	BOOL keyUp[256];
+};
 
-struct Application{									// Contains Information Vital To Applications
-	HINSTANCE		hInstance;						// Application Instance
-	const char*		className;						// Application ClassName
-};										// Application
+struct GL_WindowInit {
+	char* title;
+	int width;
+	int height;
+	int bitsPerPixel;
+	BOOL isFullScreen;
+};
 
-struct GL_WindowInit{								// Window Creation Info
-	Application*		application;				// Application Structure
-	char*				title;						// Window Title
-	int					width;						// Width
-	int					height;						// Height
-	int					bitsPerPixel;				// Bits Per Pixel
-	BOOL				isFullScreen;				// FullScreen?
-} ;										// GL_WindowInit
+struct GL_Window {
+	Keys* keys;
+	GL_WindowInit init;
+	BOOL isVisible;
+};
 
-struct GL_Window{									// Contains Information Vital To A Window
-	Keys*				keys;						// Key Structure
-	HWND				hWnd;						// Window Handle
-	HDC					hDC;						// Device Context
-	HGLRC				hRC;						// Rendering Context
-	GL_WindowInit		init;						// Window Init
-	BOOL				isVisible;					// Window Visible?
-};										// GL_Window
+// 这些函数需要由用户提供
+BOOL Initialize(GL_Window* window, Keys* keys, CCamera* camera);
+void Deinitialize(void);
+void Update(void);
+void ProcessKeys(void);
+void DrawScene(void);
 
-// forward decl
-void TerminateApplication (GL_Window* window);		// Terminate The Application
-
-void ToggleFullscreen (GL_Window* window);			// Toggle Fullscreen / Windowed Mode
-
-// These Are The Function You Must Provide
-BOOL Initialize (GL_Window* window, Keys* keys, CCamera* camera);	// Performs All Your Initialization
-void Deinitialize (void);							// Performs All Your DeInitialization
-void Update (void);									// Perform Motion Updates
-void ProcessKeys(void);								// Perform Keyboard Processing
-void DrawScene(void);								// Perform All Your Scene Drawing
-//-----------------
-
+// 全局变量声明
 extern int mouse_x;
 extern int mouse_y;
 
-extern char appTitle[];								// Stores Program Title
-extern int screenInfo[3];							// Stores Screen Info (w,h,bpp)
+extern char appTitle[];
+extern int screenInfo[3];
 
-extern GL_Window*	g_window;
-extern Keys*		g_keys;
-extern CCamera*		g_camera;	
+extern GL_Window* g_window;
+extern Keys* g_keys;
+extern CCamera* g_camera;
 
-#endif												// GL_FRAMEWORK__INCLUDED
+#endif

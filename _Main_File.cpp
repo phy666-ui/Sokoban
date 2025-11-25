@@ -1,41 +1,34 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>											// Header File For Windows
-#include <stdio.h>												// Header File For Standard Input / Output
-#include <stdarg.h>												// Header File For Variable Argument Routines
-#include <math.h>												// Header File For Math Operations
+// 跨平台的头文件包含
+#include <stdio.h>										// Header File For Standard Input / Output
+#include <stdarg.h>										// Header File For Variable Argument Routines
+#include <math.h>										// Header File For Math Operations
 
+// OpenGL 相关头文件
 #include "GLee.h"
-//#include <gl\GLee.h> // gl extension loader [gl.h is included with this]
-//#include <gl\gl.h>												// OpenGL library
-//#include <gl\glu.h>												// OpenGL utility library
 
-#include <il\il.h>												// DevIL Image Library
+// DevIL 图像库头文件
+#ifdef _WIN32
+#include <il\il.h>
 #include <il\ilu.h>
 #include <il\ilut.h>
-
-#include <al\alut.h>											// OpenAL wrapper/utility library
-
-#include "NeHeGL.h"												// Header File For NeHeGL
-
-#ifdef _MSC_VER
-	#pragma comment( lib, "opengl32.lib" )							// Search For OpenGL32.lib While Linking
-	#pragma comment( lib, "glu32.lib" )								// Search For GLu32.lib While Linking
-	//#pragma comment( lib, "glaux.lib" )								// Search For GLu32.lib While Linking
-	#pragma comment( lib, "winmm.lib" )								// Search For WinMM Library While Linking
-	#pragma comment( lib, "devil.lib" )								// DevIL Image Library
-	#pragma comment( lib, "ilut.lib" )								// DevIL Image Library
-	#pragma comment( lib, "ilu.lib" )								// DevIL Image Library
-	#pragma comment( lib, "openal32.lib" )							// OpenAL library
-	#pragma comment( lib, "alut.lib" )								// OpenAL wrapper/utility library
+#else
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 #endif
+
+// OpenAL 音频库头文件
+#ifdef _WIN32
+#include <al\alut.h>
+#else
+#include <AL/alut.h>
+#endif
+
+#include "NeHeGL.h"									// Header File For NeHeGL
 
 #ifdef  _DEBUG
 #define IL_DEBUG
 #endif //_DEBUG
-
-#ifndef		CDS_FULLSCREEN										// CDS_FULLSCREEN Is Not Defined By Some
-#define		CDS_FULLSCREEN 4									// Compilers. By Defining It This Way,
-#endif															// We Can Avoid Errors
 
 GL_Window*	g_window;
 Keys*		g_keys;

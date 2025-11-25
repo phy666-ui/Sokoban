@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <windows.h>
+#include "Platform.h"
 #include <math.h>
 #include "GLee.h"
 //#include <gl\gl.h>										// Header File For The OpenGL32 Library
